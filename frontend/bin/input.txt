@@ -1,0 +1,6 @@
+f(x) = ax + b \text{ функц өгөв. } \, f(f(x)) = 16x+40 \text{, } x \in R \, \text{байх} \, a,b \text{ - гийн боломжит утгыг олоорой.} \newline
+\text{Бодолт:} \newline
+f(f(x)) = a(f(x)) + b = a(ax + b) + b \newline
+a^2x+ab+b=16x+40 \newline
+a^2x=16x \\
+ab+b=40
