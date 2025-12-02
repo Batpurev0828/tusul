@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "frontnend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,13 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@uiw/react-md-editor": "^3.6.0",
+    "katex": "^0.16.25",
     "next": "16.0.6",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^5.1.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "babel-plugin-react-compiler": "1.0.0",
     "tailwindcss": "^4"
   }
 }
