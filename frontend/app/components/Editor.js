@@ -11,17 +11,12 @@ import rehypeKatex from "rehype-katex";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-export default function Editor() {
-  const [value, setValue] = useState("");
+export default function Editor({ value, setValue }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
 
   if (!isMounted) return null;
 
