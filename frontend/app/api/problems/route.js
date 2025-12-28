@@ -1,40 +1,36 @@
-// app/api/problems/route.js
-import dbConnect from "../../lib/mongoose"; // app/api/problems -> ../../lib/mongoose
-import Problem from "../../models/Problem";
+import dbConnect from "@/app/lib/mongoose";
+import Problem from "@/app/models/Problem";
+import { NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function GET(request) {
   try {
     await dbConnect();
 
-    const body = await request.json();
-    const problem = await Problem.create(body);
+    const { searchParams } = new URL(request.url);
+    const part = Number(searchParams.get("part"));
+    const no = Number(searchParams.get("no"));
 
-    return new Response(JSON.stringify(problem), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (err) {
-    console.error("POST /api/problems error:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-}
+    if (!Number.isInteger(part) || !Number.isInteger(no)) {
+      return NextResponse.json(
+        { error: "Invalid part or problem number" },
+        { status: 400 }
+      );
+    }
 
-export async function GET() {
-  try {
-    await dbConnect();
-    const problems = await Problem.find({});
-    return new Response(JSON.stringify(problems), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    const problem = await Problem.findOne({ part, no });
+
+    if (!problem) {
+      return NextResponse.json(
+        { error: "Problem not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(problem);
   } catch (err) {
-    console.error("GET /api/problems error:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(
+      { error: "Server error" },
+      { status: 500 }
+    );
   }
 }

@@ -8,21 +8,24 @@ export default function App() {
   const [part, setPart] = useState(1);
   const [no, setNo] = useState(1);
 
+  function isValidProblem() {
+    return (
+      value.trim() !== "" &&
+      Number.isInteger(difficulty) &&
+      difficulty >= 1 &&
+      difficulty <= 3 &&
+      Number.isInteger(no) &&
+      no >= 1 &&
+      no <= 100 &&
+      Number.isInteger(part) &&
+      part >= 1 &&
+      part <= 10
+    );
+  }
+
   async function handleSubmit() {
-    if (value === "") {
-      alert("please write the problem statement");
-      return;
-    }
-    if (difficulty < 1 || difficulty > 3 || difficulty % 1 !== 0) {
-      alert("difficulty must be between 1, 2 or 3");
-      return;
-    }
-    if (part < 1 || part > 10 || part % 1 !== 0) {
-      alert("part must be a integer between 1 and 10");
-      return;
-    }
-    if (no < 1 || no > 100 || no % 1 !== 0) {
-      alert("No. must be a integer between 1 and 100");
+    if (!isValidProblem()) {
+      alert('please fill all fields :D');
       return;
     }
     const Problem = {
@@ -31,15 +34,21 @@ export default function App() {
       no,
       difficulty,
     };
+    console.log(Problem);
     try {
-      await fetch("/api/problems", {
+      console.log("trying to post");
+      await fetch("/api/allproblems", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(Problem),
       });
+
+      alert("submitted, nice job :)");
+      setValue("");
     } catch (e) {
+      alert("didnt work gng, prob not your fault though");
       console.log(e.message);
     }
   }
